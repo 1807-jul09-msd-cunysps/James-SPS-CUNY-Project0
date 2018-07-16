@@ -1,0 +1,14 @@
+Phone directory App:
+
+Code should be SOLID compliant.
+Standard conventions to be maintained.
+
+Read contact
+Add Contact
+Delete Contact
+Update Contact
+Search Contact (by firstname, last name, zipcode, city, phone number)
+Contacts to be serialized in Json or xml
+Exceptions to be handled and logged using Nlog
+Unit Testing to be done using xUnit or MSTest
+Store contacts in generic Collection

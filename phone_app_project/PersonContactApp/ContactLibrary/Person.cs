@@ -22,13 +22,21 @@ namespace ContactLibrary
             address = new Address();
             phone = new Phone();
         }
+        public Person(string name) : this()
+        {
+            this.firstName = name;
+
+        }
         public long Pid { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
         public Address address { get; set; }
         public Phone phone { get; set; }
 
-       
+        public override string ToString()
+        {
+            return firstName;
+        }
         public List<Person> Get()
         {
 
