@@ -10,10 +10,19 @@ namespace ContactLibrary
     /// this is a collection of people/contacts. Why three forward-slashes? I don't know.
     {
         List<Person> contacts = new List<Person>();
+        public int Count { get { return contacts.Count; }  } //represents the size/length of the roladex
         
-        public void add (Person p)        {            this.contacts.Add(p);       }
+        public void add (Person p)  {
+            this.contacts.Add(p);
+        }
 
-        public void remove (Person P) {  }
+        public void remove (Person P) {
+            foreach (Person p in contacts)
+            {
+                if (p.Equals(P)) { }
+//                if (p == P) { }
+            }
+        }
 
         public override string ToString()
         {

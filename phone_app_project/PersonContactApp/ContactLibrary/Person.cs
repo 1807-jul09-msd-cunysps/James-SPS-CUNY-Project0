@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+//using  
+
 
 namespace ContactLibrary
 {
@@ -16,11 +18,13 @@ namespace ContactLibrary
     }
     public class Person
     {
+        static Random r = new Random();
         public Person()
         {
             /// Initialise the dependant objects
             address = new Address();
             phone = new Phone();
+            Pid = Person.r.Next();
         }
         public Person(string name) : this()
         {
@@ -37,6 +41,24 @@ namespace ContactLibrary
         {
             return firstName;
         }
+
+        //public operator = (Person a){
+
+        
+        public  bool Equals(Person obj)
+        {
+            Console.WriteLine("test the Equals method on its own please." +
+                " Press any key to continue.");
+            Console.Read();
+            return (
+                obj.Pid == this.Pid
+                //&& obj.firstName == this.firstName
+                //&& obj.lastName == this.lastName
+                //&& obj.address.Equals(this.address)
+                //&& obj.phone.Equals(this.phone)
+                );
+        }
+
         public List<Person> Get()
         {
 
