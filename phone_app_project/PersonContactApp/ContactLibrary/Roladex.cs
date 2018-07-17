@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace ContactLibrary
 {
     public class Roladex
-    /// this is a collection of people/contacts
+    /// this is a collection of people/contacts. Why three forward-slashes? I don't know.
     {
         List<Person> contacts = new List<Person>();
         
@@ -18,8 +18,8 @@ namespace ContactLibrary
         public override string ToString()
         {
             string peeps = "";
-            foreach (Person person in contacts) peeps += " " + person;
-
+            string separator = " ";
+            foreach (Person person in contacts) peeps += person + separator;
             return peeps;
         }
 
