@@ -44,12 +44,15 @@ namespace ContactLibrary
 
         //public operator = (Person a){
 
-        
-        public  bool Equals(Person obj)
+         
+        public  bool Equals(Person obj) 
+//note to self -- the "override" modifier is inappropriate because
+//  this parameter (type Person) differs in type from the parameter
+//  of the inherited Equals method of the Object class (type Object)
         {
-            Console.WriteLine("test the Equals method on its own please." +
-                " Press any key to continue.");
-            Console.Read();
+            //Console.WriteLine("test the Equals method on its own please." +
+            //    " Press any key to continue.");
+            //Console.Read();
             return (
                 obj.Pid == this.Pid
                 //&& obj.firstName == this.firstName
@@ -58,6 +61,7 @@ namespace ContactLibrary
                 //&& obj.phone.Equals(this.phone)
                 );
         }
+        
 
         public List<Person> Get()
         {
@@ -123,6 +127,23 @@ namespace ContactLibrary
         public string areaCode { get; set; }
         public string number { get; set; }
         public string ext { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (Object.ReferenceEquals
+                (obj.GetType(), "string".GetType())
+                ) //is it being passed a string?
+            {
+                if ((string)obj == number || (string)obj == areaCode + number)
+                    return true;
+                else return false;
+            }
+            else if (Object.ReferenceEquals
+                (obj.GetType(), this.GetType())
+                ) //is it being passed a Phone object?
+                return (this.Pid == ((Phone)obj).Pid);
+            else return base.Equals(obj);
+        }
     }
     
 }

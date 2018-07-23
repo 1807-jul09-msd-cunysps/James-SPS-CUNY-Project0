@@ -83,7 +83,7 @@ namespace ContactClient
             #endregion
             //Method Syntax
             ContactLibrary.Roladex contacts = new ContactLibrary.Roladex();
-            contacts.add(new Person("Katrina"));
+            contacts.Add(new Person("Katrina"));
             Console.WriteLine(contacts);
             Console.Read();
 

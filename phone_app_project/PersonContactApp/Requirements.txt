@@ -12,3 +12,4 @@ Contacts to be serialized in Json or xml
 Exceptions to be handled and logged using Nlog
 Unit Testing to be done using xUnit or MSTest
 Store contacts in generic Collection
+

@@ -21,7 +21,7 @@ namespace ContactTesting
         [TestMethod]
         public void TestAdd()
         {
-            rol.add(new Person("Kanisha Brown"));
+            rol.Add(new Person("Kanisha Brown"));
             Assert.AreEqual(rol.Count, 1);
             //Assert.AreEqual(rol.p.firstName, "Kanisha");
             //Assert.AreEqual(rol.p.lastName, "Brown");
