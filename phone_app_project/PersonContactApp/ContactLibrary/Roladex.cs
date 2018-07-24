@@ -66,6 +66,17 @@ namespace ContactLibrary
             return results.ToArray();
         }
 
+        private Person GetPerson ( long PID)
+        {
+            return contacts[IDs[PID]];
+        }
+
+        public bool Update (long PID, )
+        {
+            Person person = GetPerson(PID);
+
+        }
+
         //        public void remove (Person P) {
         //            foreach (Person p in contacts)
         //            {
