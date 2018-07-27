@@ -78,11 +78,14 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="NewFolder1\WebsiteDraft.png" />
     <Content Include="Pages\About_me.html" />
+    <Content Include="Pages\Contact_me.html" />
     <Content Include="Pages\HtmlPage1.html" />
+    <Content Include="Pages\Join_me.html" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\day14js_snippet.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />

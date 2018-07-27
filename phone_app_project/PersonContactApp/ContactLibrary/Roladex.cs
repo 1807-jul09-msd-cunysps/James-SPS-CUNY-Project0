@@ -71,9 +71,27 @@ namespace ContactLibrary
             return contacts[IDs[PID]];
         }
 
-        public bool Update (long PID, )
+        public bool Update (long PID, string field, object new_data)
         {
             Person person = GetPerson(PID);
+            switch (field.ToLower())
+            {
+                case "firstname":                    
+                    break;
+                case "lastname":
+                    break;
+                case "zipcode":
+                    break;
+                case "city":
+                    break;
+                case "phone":
+                    person.phone = (string)new_data;
+                    break;
+                case "address":
+                    person.address = (Address)new_data;
+                    break;
+
+            }
 
         }
 
