@@ -1,11 +1,18 @@
-﻿/*
+﻿
+
 body {
-     asdf 
+    background-color: powderblue;
 }
-*/
 
 #banner {
     text-align: center;
     color: blue;
+    background-color:rgb(70,30,90);
     font-family: "Times New Roman";
+}
+
+#navigation-bar
+{
+    padding: 5px;
+    background-color: maroon;
 }
