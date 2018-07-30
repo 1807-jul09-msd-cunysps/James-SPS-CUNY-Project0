@@ -76,22 +76,26 @@ namespace ContactLibrary
             Person person = GetPerson(PID);
             switch (field.ToLower())
             {
-                case "firstname":                    
-                    break;
+                case "firstname":
+                    person.firstName = (string) new_data;
+                    return true;
                 case "lastname":
-                    break;
+                    person.lastName = (string)new_data;
+                    return true;
                 case "zipcode":
-                    break;
+                    person.address.zipcode = (string)new_data;
+                    return true;
                 case "city":
-                    break;
+                    person.address.city = (string)new_data;
+                    return true;
                 case "phone":
-                    person.phone = (string)new_data;
-                    break;
+                    person.phone = new Phone(new_data);
+                    return true;
                 case "address":
                     person.address = (Address)new_data;
-                    break;
-
+                    return true;
             }
+            return false;
 
         }
 
