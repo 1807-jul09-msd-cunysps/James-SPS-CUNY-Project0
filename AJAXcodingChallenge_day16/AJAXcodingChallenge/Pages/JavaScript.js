@@ -8,7 +8,9 @@ request.onload = function () {
     for (var x in superHeroes) {
         alert(x+": "+superHeroes[x]);
     }
-//    document.createElement(h1, superHeroes['squadName']);
-    populateHeader(superHeroes);
-    showHeroes(superHeroes);
+    var h = document.createElement(h1);
+    h.textContent = superHeroes['squadName'];
+    header.appendChild(h);
+    //populateHeader(superHeroes);
+    //showHeroes(superHeroes);
 }
