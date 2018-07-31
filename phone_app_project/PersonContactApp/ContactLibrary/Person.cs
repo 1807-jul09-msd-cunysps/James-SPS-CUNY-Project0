@@ -19,18 +19,20 @@ namespace ContactLibrary
     public class Person
     {
         static Random r = new Random();
-        public Person()
+        public Person() : this(Person.r.Next())
         {
-            /// Initialise the dependant objects
-            address = new Address();
-            phone = new Phone();
-            Pid = Person.r.Next();
         }
         public Person(string name) : this()
         {
             this.firstName = name;
-
         }
+        public Person(long PID)
+        {
+            this.Pid = PID;
+            address = new Address();
+            phone = new Phone();
+        }
+        public Person(string firstName, string lastName) : this(firstName) { this.lastName = lastName; }
         public long Pid { get; set; }
         public string firstName { get; set; }
         public string lastName { get; set; }
@@ -39,7 +41,7 @@ namespace ContactLibrary
 
         public override string ToString()
         {
-            return firstName;
+            return Pid.ToString()+"\t\t"+firstName+"\t\t"+lastName;
         }
 
         //public operator = (Person a){
@@ -127,8 +129,11 @@ namespace ContactLibrary
         public string areaCode { get; set; }
         public string number { get; set; }
         public string ext { get; set; }
-        public Phone(string num) { this.number = num; }
-        public Phone(Phone phone) {
+        public Phone() {
+        //    countrycode = new Country();
+        }
+        public Phone(string num):this() { this.number = num; }
+        public Phone(Phone phone):this() {
             this.Pid = phone.Pid;
             this.countrycode = phone.countrycode;
             this.number = phone.number;

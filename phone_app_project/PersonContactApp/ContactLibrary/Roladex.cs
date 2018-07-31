@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlClient;
 
 namespace ContactLibrary
 {
@@ -72,6 +73,7 @@ namespace ContactLibrary
         }
 
         public bool Update (long PID, string field, object new_data)
+            ///<param name="field">accepts 'firstName', 'lastName', 'zipCode', 'city', 'phone', 'address', case-insensitive</param>
         {
             Person person = GetPerson(PID);
             switch (field.ToLower())
@@ -128,11 +130,107 @@ namespace ContactLibrary
         public override string ToString()
         {
             string peeps = "";
-            string separator = " ";
+            string separator = "\n";
             foreach (Person person in contacts) peeps += person + separator;
             return peeps;
         }
 
+        public List<Person> All() { return contacts; }
+
+
+    }
+
+    public class RolData
+    {
+        SqlConnection con;
+        string command;
+        string conStr;
+
+        private Roladex roladex;
+        public RolData() : this(new Roladex()) { }
+        public RolData(Roladex roladex)
+        {
+            con = null;
+            this.roladex = roladex;
+            conStr = "Data Source=day10testserver.database.windows.net;Initial Catalog=PhoneAppDatabase;Persist Security Info=True;User ID=James;Password=Onama25Chesture";
+        }
+
+        public bool Populate()
+        {
+            bool result;
+            command = "select * from People";
+            try
+            {
+                con = new SqlConnection(conStr);
+                con.Open();
+                //2. SQL Command
+                SqlCommand cmd = new SqlCommand(command, con);
+                //3. Execute query
+                SqlDataReader dr = cmd.ExecuteReader();
+                while (dr.Read())
+                {
+//                    Console.WriteLine(dr[0].GetType());
+                    Person person = new Person((long)(int)dr[0]) 
+//why the fuck do I need to cast it to an int (when it's already an int) before casting it to a long? 
+                    {
+                        firstName = (string)dr[1],
+                        lastName = (string)dr[2]
+                    };
+                    roladex.Add(person);
+                }
+                result = true;
+            }
+            catch (SqlException ex)
+            {
+                result = false;
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return result;
+        }
+        public bool PersistDB()
+        {
+            bool result;
+            command = "DELETE FROM People"; //deletes all records from the table
+            try
+            {
+                con = new SqlConnection(conStr);
+                con.Open();
+                SqlCommand cmd = new SqlCommand(command, con);
+                cmd.ExecuteNonQuery();
+                foreach (Person person in roladex.All())
+                {
+                    command = "insert into People values ('" + person.firstName + "', '"
+                        + person.lastName + "')";
+                    cmd = new SqlCommand(command, con);
+                    cmd.ExecuteNonQuery();
+                }
+                result = true;
+            }
+            catch (SqlException ex)
+            {
+                result = false;
+                Console.WriteLine(ex.Message);
+            }
+            catch (Exception ex)
+            {
+                result = false;
+                Console.WriteLine(ex.Message);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return result;
+        }
 
 
     }
