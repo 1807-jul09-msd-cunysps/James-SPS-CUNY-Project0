@@ -71,7 +71,9 @@ namespace ContactClient
                 Console.WriteLine("'del' - to delete a person from the roladex");
                 Console.WriteLine("'update' - to update a person's info in the roladex");
                 Console.WriteLine("'search' - to search for a person in the roladex");
+                Console.WriteLine("'clear' - to clear the screen");
                 Console.WriteLine("'quit' - exit the program");
+                //Console.WriteLine("command");
                 Console.WriteLine("\n please enter your command (case insensitive, without quotation marks) and press <enter>");
                 #endregion
 
@@ -81,7 +83,7 @@ namespace ContactClient
                 {
                     switch (input)
                     {
-
+                        
                         #region case "list"
                         case "list":
                             if (roladex.isEmpty()) Console.WriteLine("roladex is empty, silly!");
@@ -193,12 +195,17 @@ namespace ContactClient
                             }
                             break;
                         #endregion
+                        #region case "clear"
+                        case "clear":
+                            for (int i = 0; i < 100; i++) Console.WriteLine();
+                            break;
+                        #endregion
                         #region case "quit"
                         case "quit":
                             System.Environment.Exit(0);
                             break;
-                            #endregion
-
+                        #endregion
+                        
                     }
                     Console.WriteLine("\n write a command then <enter>, or just <enter> to see all commands. 'quit' to exit.");
                     input = Console.ReadLine();

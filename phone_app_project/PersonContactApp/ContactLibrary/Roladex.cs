@@ -205,7 +205,11 @@ namespace ContactLibrary
                         person.address.city = (string)dr[4];
                         person.phone.number = (string)dr[5];
                     }
-                    catch (IndexOutOfRangeException) { }
+                    catch (IndexOutOfRangeException)
+                    {
+                        var logger = NLog.LogManager.GetCurrentClassLogger();
+                        logger.Info("Index out of range exception during populate function");
+                    }
                     catch (Exception) { } //what kind of exception could this be??
                     roladex.Add(person);
                 }
@@ -295,6 +299,8 @@ namespace ContactLibrary
                 { mem.Close(); }
             return JSONresult;
         }
+
+        public IEnumerable<Person> GetPeople() { return roladex.All(); }
 
     }
 }

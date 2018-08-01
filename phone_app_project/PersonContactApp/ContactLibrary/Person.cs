@@ -138,9 +138,25 @@ namespace ContactLibrary
             this.countrycode = phone.countrycode;
             this.number = phone.number;
             this.ext = phone.ext;
-        } 
-        public Phone(object o) :
-            this((Phone)o){}
+        }
+        public Phone(object o)
+        {
+            try
+            {
+                o = (Phone)o;
+            }
+            catch (InvalidCastException)
+            {
+                try
+                {
+                    o = (string)o;
+                }
+                catch (InvalidCastException)
+                {
+                    Console.WriteLine("");
+                }
+            }
+        }
 
         public override bool Equals(object obj)
         {
