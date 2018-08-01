@@ -12,6 +12,7 @@ namespace ContactLibrary
     {
         List<Person> contacts;
         Dictionary<long, int> IDs;
+        public static string[] search_fields = { "firstName", "lastName", "zipcode", "city", "phone" };
         public Roladex()
         {
             contacts = new List<Person>();
@@ -19,6 +20,7 @@ namespace ContactLibrary
         }
         public int Count { get { return contacts.Count; }  } //represents the size/length of the roladex
         
+        public bool isEmpty() { return contacts.Count == 0; }
         public bool Add (Person p)  {
             try
             {
@@ -35,12 +37,12 @@ namespace ContactLibrary
             }
         }
 
-        public long[] Search (string parameterName, string search_term)
-            ///accepts "firstName", "lastName", "zipcode", "city", "phone" as <param name="parameterName"/>
-            ///<returns>an array of PID values</returns>
+        public long[] Search (string field, string search_term)
+        ///<param name="field">accepts "firstName", "lastName", "zipcode", "city", "phone"<param/>
+        ///<returns>an array of PID values</returns>
         {
             List<long> results = new List<long>();
-            switch (parameterName.ToLower())
+            switch (field.ToLower())
             {
                 case "firstname":
                     foreach (Person person in contacts)
@@ -66,16 +68,35 @@ namespace ContactLibrary
             }
             return results.ToArray();
         }
+        //public long[] Search (string search_term)
+        //    ///iterates through the different search fields, tries them all, then join the result arrays together
+        //{
+        //    long[] results = [];
+        //    foreach (string field in Roladex.search_fields)
+        //    {
+        //        results.Join(Search(field,search_term))
+        //    }
+        //    return results;
+        //    //a few parts of this don't work yet
+        //}
 
-        private Person GetPerson ( long PID)
+        public Person GetPersonByPID ( long PID)
         {
-            return contacts[IDs[PID]];
+            Person p;
+            try { p = contacts[IDs[PID]];  }
+            catch (Exception) { return null; }
+            return p;
         }
 
         public bool Update (long PID, string field, object new_data)
             ///<param name="field">accepts 'firstName', 'lastName', 'zipCode', 'city', 'phone', 'address', case-insensitive</param>
         {
-            Person person = GetPerson(PID);
+            Person person;
+            try {
+                    person = GetPersonByPID(PID);
+                    if (person == null) return false;
+                }
+            catch (Exception) { return false; }
             switch (field.ToLower())
             {
                 case "firstname":
@@ -109,7 +130,7 @@ namespace ContactLibrary
         //            }
         //        }
 
-        public bool Remove (int ID)
+        public bool Remove (long ID)
         {
             try
             {
@@ -169,13 +190,20 @@ namespace ContactLibrary
                 SqlDataReader dr = cmd.ExecuteReader();
                 while (dr.Read())
                 {
-//                    Console.WriteLine(dr[0].GetType());
-                    Person person = new Person((long)(int)dr[0]) 
-//why the fuck do I need to cast it to an int (when it's already an int) before casting it to a long? 
+                    Person person = new Person((long)(int)dr[0])
+                    //why do I need to cast it to an int (when it's already an int) before casting it to a long? 
+                    //Console.WriteLine(dr[0].GetType());
                     {
                         firstName = (string)dr[1],
                         lastName = (string)dr[2]
                     };
+                    try {
+                        person.address.zipcode = (string)dr[3];
+                        person.address.city = (string)dr[4];
+                        person.phone.number = (string)dr[5];
+                    }
+                    catch (IndexOutOfRangeException) { }
+                    catch (Exception) { } //what kind of exception could this be??
                     roladex.Add(person);
                 }
                 result = true;
@@ -208,10 +236,25 @@ namespace ContactLibrary
                 cmd.ExecuteNonQuery();
                 foreach (Person person in roladex.All())
                 {
-                    command = "insert into People values ('" + person.firstName + "', '"
-                        + person.lastName + "')";
-                    cmd = new SqlCommand(command, con);
-                    cmd.ExecuteNonQuery();
+                    if (person.firstName != null && person.lastName != null) {
+                    //people with a firstName or lastName but not both will NOT be persisted
+                        if (person.address.zipcode != null && person.address.city != null && person.phone.number != null)
+                        {
+                            command = "insert into People (firstName, lastName, zipcode, city, phone) values ('" + 
+                                person.firstName       + "', '" + 
+                                person.lastName        + "', '" +
+                                person.address.zipcode + "', '" + 
+                                person.address.city    + "', '" +
+                                person.phone.number
+                                + "')";
+                        }
+                        else { //this means that there's a first name and a last name, but no zip/city/phone
+                            command = "insert into People (firstName, lastName) " +
+                                "values ('" + person.firstName + "', '" + person.lastName + "')";
+                        }
+                        cmd = new SqlCommand(command, con);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
                 result = true;
             }

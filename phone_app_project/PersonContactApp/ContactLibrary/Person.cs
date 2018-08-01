@@ -41,7 +41,7 @@ namespace ContactLibrary
 
         public override string ToString()
         {
-            return Pid.ToString()+"\t\t"+firstName+"\t\t"+lastName;
+            return Pid.ToString()+"\t\t"+firstName+"\t\t"+lastName+"\t\t"+address.zipcode+"\t\t"+address.city+"\t\t"+phone.number;
         }
 
         //public operator = (Person a){

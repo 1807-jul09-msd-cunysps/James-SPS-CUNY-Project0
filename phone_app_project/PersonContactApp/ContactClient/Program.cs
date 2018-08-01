@@ -56,52 +56,152 @@ namespace ContactClient
         }
         static void Main(string[] args)
         {
-            ContactLibrary.Roladex contacts = new ContactLibrary.Roladex();
+            ContactLibrary.Roladex roladex = new ContactLibrary.Roladex();
 
             Console.WriteLine("welcome to James' Roladex!");
             Console.WriteLine("");
             while (true) {
+                #region user commands
                 Console.WriteLine("available commands:");
                 Console.WriteLine("'list' - to list all records");
                 Console.WriteLine("'pop' - to populate roladex from database");
                 Console.WriteLine("'save' - to persist the roladex into the database");
-                Console.WriteLine("'json' - to print the roladex as a json file");
+                //Console.WriteLine("'json' - to print the roladex as a json file");
                 Console.WriteLine("'add' - to add a person into the roladex");
                 Console.WriteLine("'del' - to delete a person from the roladex");
                 Console.WriteLine("'update' - to update a person's info in the roladex");
                 Console.WriteLine("'search' - to search for a person in the roladex");
                 Console.WriteLine("'quit' - exit the program");
                 Console.WriteLine("\n please enter your command (case insensitive, without quotation marks) and press <enter>");
+                #endregion
 
                 string input = Console.ReadLine().ToLower();
 
-                switch (input)
+                while (true)
                 {
-                    case "list":
-                        Console.WriteLine(contacts.All());
-                        break;
-                    case "pop":
-                        Console.WriteLine(
-                            (new RolData(contacts)).Populate() ? "success!" : "hmm, this didn't work"
-                        );
-                        break;
-                    case "save":
-                        Console.WriteLine(
-                            (new RolData(contacts)).PersistDB() ? "success!" : "hmm, this didn't work"
-                        );
-                        break;
-                    case "json":
-                        Console.WriteLine("haven't implemented this yet :(");
-                        //Console.WriteLine("Right now I'm only doing this as a SQL command (as opposed to with c# commands))");
-                        break;
-                    case "add":
-                        Console.WriteLine("please enter a first name and last name separated by a space, then hit <enter>");
-                        string[] name = Console.ReadLine().Split(' ');
-                        Console.WriteLine(
-                            contacts.Add(new Person(name[0],name[1]))
-                            ? "success!" : "hmm, this didn't work"
-                         );
-                        break;
+                    switch (input)
+                    {
+
+                        #region case "list"
+                        case "list":
+                            if (roladex.isEmpty()) Console.WriteLine("roladex is empty, silly!");
+                            foreach (Person list_person in roladex.All())
+                                Console.WriteLine(list_person);
+                            break;
+                        #endregion
+                        #region case "pop"
+                        case "pop":
+                            Console.WriteLine(
+                                (new RolData(roladex)).Populate() ? "success!" : "hmm, this didn't work"
+                            );
+                            break;
+                        #endregion
+                        #region case "save"
+                        case "save":
+                            Console.WriteLine(
+                                (new RolData(roladex)).PersistDB() ? "success!" : "hmm, this didn't work"
+                            );
+                            break;
+                        #endregion
+                        #region case "json"
+                        case "json":
+                            Console.WriteLine("haven't implemented this yet :(");
+                            //Console.WriteLine("Right now I'm only doing this as a SQL command (as opposed to with c# commands))");
+                            break;
+                        #endregion
+                        #region case "add"
+                        case "add":
+                            Console.WriteLine("please enter a first name and last name separated by a space, then hit <enter>");
+                            string[] name = Console.ReadLine().Split(' ');
+                            Person person_to_add = new Person(name[0], name[1]);
+                            bool success = roladex.Add(person_to_add);
+                            Console.WriteLine(success ? "success!" : "hmm, this didn't work");
+                            if (success)
+                            {
+                                Console.WriteLine("would you like to add more fields? (zipcode, city, phone)");
+                                Console.WriteLine("yes/no, then press <enter>");
+                                string add_input = Console.ReadLine();
+                                if (add_input.ToLower() == "yes")
+                                {
+                                    Console.WriteLine("please enter zipcode");
+                                    person_to_add.address.zipcode = Console.ReadLine();
+                                    Console.WriteLine("please enter a city");
+                                    person_to_add.address.city = Console.ReadLine();
+                                    Console.WriteLine("please enter a phone number");
+                                    person_to_add.phone.number = Console.ReadLine();
+                                }
+                            }
+                            break;
+                        #endregion
+                        #region case "del"
+                        case "del":
+                            Console.WriteLine("please enter a Person ID, then press <enter>");
+                            Console.WriteLine("(if you don't have the ID, use the search feature)");
+                            try
+                            {
+                                long del_id = Convert.ToInt64(Console.ReadLine());
+                                Console.WriteLine(
+                                    roladex.Remove(del_id)
+                                    ? "success!" : "hmm, this didn't work -- that person is likely not in the roladex"
+                                );
+                            }
+                            catch (Exception)
+                            { Console.WriteLine("hmm, that didn't work. Was your input a number?"); }
+                            //finally { break; }
+                            break;
+                        #endregion
+                        #region case "update"
+                        case "update":
+                            Console.WriteLine("please enter a Person ID, then press <enter>");
+                            Console.WriteLine("(if you don't have the ID, use the search feature)");
+                            long upd_id; //the user input
+                            try { upd_id = Convert.ToInt64(Console.ReadLine()); }
+                            catch (Exception)
+                            {
+                                Console.WriteLine("hmm, couldn't convert your input into a number.");
+                                break;
+                            }
+                            Console.WriteLine("please enter the field to update, then press <enter>");
+                            Console.WriteLine("options: " + String.Join(", ", Roladex.search_fields));
+                            string upd_field = Console.ReadLine();
+                            Console.WriteLine("please enter the new value for that field, then press <enter>");
+                            string upd_value = Console.ReadLine();
+                            Console.WriteLine(
+                                roladex.Update(upd_id, upd_field, upd_value)
+                                ? "success!" : "hmm, this didn't work"
+                             );
+                            break;
+                        #endregion
+                        #region case "search"
+                        case "search":
+                            Console.WriteLine("please enter the field you'd like to search, then press <enter>");
+                            Console.WriteLine("available fields are " + String.Join(", ", Roladex.search_fields));
+                            string search_field = Console.ReadLine();
+                            Console.WriteLine("please enter the " + search_field + " you'd like to search for, then press <enter>");
+                            Console.WriteLine("(exact matches only)");
+                            string search_term = Console.ReadLine();
+                            long[] search_results = roladex.Search(search_field, search_term);
+                            if (search_results.Length == 0) Console.WriteLine("no matches!");
+                            else
+                            {
+                                Console.WriteLine("matches:");
+                                foreach (long pid in search_results)
+                                {
+                                    Console.WriteLine(roladex.GetPersonByPID(pid));
+                                }
+                            }
+                            break;
+                        #endregion
+                        #region case "quit"
+                        case "quit":
+                            System.Environment.Exit(0);
+                            break;
+                            #endregion
+
+                    }
+                    Console.WriteLine("\n write a command then <enter>, or just <enter> to see all commands. 'quit' to exit.");
+                    input = Console.ReadLine();
+                    if (input == "") break;
                 }
             }
 
@@ -131,10 +231,10 @@ namespace ContactClient
                   Console.WriteLine($"{item.firstName} {item.lastName} Phone +{item.phone.countrycode+"-"+item.phone.areaCode+"-"+item.phone.number}");
               }*/
             #endregion
-            RolData rolD = (new RolData(contacts));
+            RolData rolD = (new RolData(roladex));
             rolD.Populate();
-            contacts.Add(new Person("Katrina", "Smith"));
-            Console.WriteLine(contacts);
+            roladex.Add(new Person("Katrina", "Smith"));
+            Console.WriteLine(roladex);
             rolD.PersistDB();
             Console.Read();
             

@@ -90,6 +90,7 @@
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
     <Content Include="Scripts\esm\popper.min.js" />
+    <Content Include="Scripts\James_scripts\dataValidation.js" />
     <Content Include="Scripts\James_scripts\zipAPI.js" />
     <Content Include="Scripts\JavaScript1.js" />
     <Content Include="Scripts\esm\popper.min.js.map" />

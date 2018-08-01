@@ -5,8 +5,13 @@
     <title>Let's get dangerous</title>
     <link href="../Content/bootstrap.css" rel="stylesheet" />
     <link href="../Styles/StyleSheet1.css" rel="stylesheet" />
-    <script src="../Scripts/bootstrap.js"></script>
+    <!--<script src="../Scripts/bootstrap.js"></script>-->
     <script src="../Scripts/James_scripts/zipAPI.js"></script>
+    <script src="../Scripts/James_scripts/dataValidation.js"></script>
+    <style>
+        .notvalid {background:rgb(255, 0, 0)}
+        .yesvalid {background:rgb(0, 255, 33)}
+    </style>
 </head>
 <body>
     <h1 id="banner"> JAMES' Page hi </h1>
@@ -28,140 +33,135 @@
             </div>
         </div>
 
-        <form>
-            <div class="row">
+        <form onsubmit="eatCereal();">
+            <div id="personal_details">
                 <h3>PERSONAL DETAILS</h3>
+                <div class="row" id="first_name">
+                    <div class="col-6">
+                        first name
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
+                <div class="row" id="last_name">
+                    <div class="col-6">
+                        last name
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
+                <div class="row" id="age">
+                    <div class="col-6">
+                        age
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" onblur="checkAge();" />
+                    </div>
+                </div>
+                <div class="row" id="gender">
+                    <div class="col-6">
+                        gender
+                    </div>
+                    <div class="col-6">
+                        <select class="data">
+                            <option>male</option>
+                            <option>female</option>
+                            <option>nonbinary</option>
+                            <option>classified</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div id="address_details">
+                <h3>MAILING ADDRESS</h3>
+                <div class="row" id="address_line_1">
+                    <div class="col-6">
+                        address line 1
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
+                <div class="row" id="address_line_1">
+                    <div class="col-6">
+                        address line 2
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
+                <div class="row" id="city">
+                    <div class="col-6">
+                        city
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
+                <div class="row" id="state">
+                    <div class="col-6">
+                        state
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
+                <div class="row" id="zipcode" onblur="checkZippyZip();">
+                    <div class="col-6">
+                        zipcode
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
             </div>
 
-            <div class="row" id="first_name">
-                <div class="col-6">
-                    first name
+            <div id="contact_details">
+                <h3>CONTACT DETAILS</h3>
+                <div class="row" id="country_code">
+                    <div class="col-6">
+                        country code
+                    </div>
+                    <div class="col-6">
+                        <select class="data">
+                            <option>US = 1</option>
+                            <option>UK = 44</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
+                <div class="row" id="area_code">
+                    <div class="col-6">
+                        area code
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
                 </div>
-            </div>
-            <div class="row" id="last_name">
-                <div class="col-6">
-                    last name
+                <div class="row" id="phone">
+                    <div class="col-6">
+                        phone number
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
                 </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
+                <div class="row" id="extension">
+                    <div class="col-6">
+                        extension
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
                 </div>
-            </div>
-            <div class="row" id="age">
-                <div class="col-6">
-                    age
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="gender">
-                <div class="col-6">
-                    gender
-                </div>
-                <div class="col-6">
-                    <select class="data">
-                        <option>male</option>
-                        <option>female</option>
-                        <option>nonbinary</option>
-                        <option>classified</option>
-                    </select>
-                </div>
-            </div>
-
-            <div class="row" id="address_details">
-                <h3>
-                    MAILING ADDRESS
-                </h3>
-            </div>
-            <div class="row" id="address_line_1">
-                <div class="col-6">
-                    address line 1
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="address_line_1">
-                <div class="col-6">
-                    address line 2
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="city">
-                <div class="col-6">
-                    city
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="state">
-                <div class="col-6">
-                    state
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="zipcode" onblur="checkZippyZip();">
-                <div class="col-6">
-                    zipcode
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="contact_details">
-                <h3>
-                    CONTACT DETAILS
-                </h3>
-            </div>
-            <div class="row" id="country_code">
-                <div class="col-6">
-                    country code
-                </div>
-                <div class="col-6">
-                    <select class="data">
-                        <option>US = 1</option>
-                        <option>UK = 44</option>
-                    </select>
-                </div>
-            </div>
-            <div class="row" id="area_code">
-                <div class="col-6">
-                    area code
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="phone">
-                <div class="col-6">
-                    phone number
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="extension">
-                <div class="col-6">
-                    extension
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
-                </div>
-            </div>
-            <div class="row" id="email">
-                <div class="col-6">
-                    email
-                </div>
-                <div class="col-6">
-                    <input type="text" class="data" />
+                <div class="row" id="email">
+                    <div class="col-6">
+                        email
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
                 </div>
             </div>
         </form>
