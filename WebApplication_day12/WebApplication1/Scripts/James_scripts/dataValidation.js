@@ -19,7 +19,7 @@
 
 function eatCereal() {
     var myform = document.forms[0] //pulls the form (there's only 1 form, hence index 0)
-
+    var result_json = myform 
 }
 
 

@@ -64,9 +64,9 @@ namespace ContactClient
                 #region user commands
                 Console.WriteLine("available commands:");
                 Console.WriteLine("'list' - to list all records");
-                Console.WriteLine("'pop' - to populate roladex from database");
-                Console.WriteLine("'save' - to persist the roladex into the database");
-                //Console.WriteLine("'json' - to print the roladex as a json file");
+                Console.WriteLine("'pop' - to populate roladex from remote database");
+                Console.WriteLine("'save' - to persist the roladex into the remote database");
+                Console.WriteLine("'json' - to print the roladex as a json string");
                 Console.WriteLine("'add' - to add a person into the roladex");
                 Console.WriteLine("'del' - to delete a person from the roladex");
                 Console.WriteLine("'update' - to update a person's info in the roladex");
@@ -105,8 +105,9 @@ namespace ContactClient
                         #endregion
                         #region case "json"
                         case "json":
-                            Console.WriteLine("haven't implemented this yet :(");
-                            //Console.WriteLine("Right now I'm only doing this as a SQL command (as opposed to with c# commands))");
+                            Console.WriteLine((new RolData(roladex)).ToJSON());
+                            //Console.WriteLine("haven't implemented this yet :(");
+                            ////Console.WriteLine("Right now I'm only doing this as a SQL command (as opposed to with c# commands))");
                             break;
                         #endregion
                         #region case "add"

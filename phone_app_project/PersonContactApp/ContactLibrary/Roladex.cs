@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SqlClient;
+//using System.Runtime.Serialization;
+using System.IO;
+using System.Runtime.Serialization.Json;
 
 namespace ContactLibrary
 {
@@ -275,6 +278,23 @@ namespace ContactLibrary
             return result;
         }
 
+        public string ToJSON()
+        {
+            string JSONresult;
+            //Console.WriteLine(roladex.All().Count);
+            MemoryStream mem = new MemoryStream();
+            try
+            {
+                DataContractJsonSerializer ser = new DataContractJsonSerializer(typeof(List<Person>));                
+                ser.WriteObject(mem, roladex.All());
+                JSONresult = Encoding.UTF8.GetString(mem.ToArray());
+            }
+            catch (Exception)
+                { JSONresult = "serialization falied"; }
+            finally
+                { mem.Close(); }
+            return JSONresult;
+        }
 
     }
 }
