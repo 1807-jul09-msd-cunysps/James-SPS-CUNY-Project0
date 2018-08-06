@@ -6,11 +6,21 @@
     <link href="../Content/bootstrap.css" rel="stylesheet" />
     <link href="../Styles/StyleSheet1.css" rel="stylesheet" />
     <!--<script src="../Scripts/bootstrap.js"></script>-->
-    <script src="../Scripts/James_scripts/zipAPI.js"></script>
     <script src="../Scripts/James_scripts/dataValidation.js"></script>
+    <script src="../Scripts/James_scripts/zipcodeAPI.js"></script>
     <style>
-        .notvalid {background:rgb(255, 0, 0)}
-        .yesvalid {background:rgb(0, 255, 33)}
+        .notvalid {
+            background: rgb(255, 0, 0)
+        }
+
+        .yesvalid {
+            background-color: green;
+            /*background: rgb(0, 255, 33)*/
+        }
+        .visible {
+            display:normal;
+        }
+        .invisible { display:none;}
     </style>
 </head>
 <body>
@@ -34,6 +44,7 @@
         </div>
 
         <form onsubmit="eatCereal();">
+
             <div id="personal_details">
                 <h3>PERSONAL DETAILS</h3>
                 <div class="row" id="first_name">
@@ -74,8 +85,56 @@
                     </div>
                 </div>
             </div>
+
             <div id="address_details">
                 <h3>MAILING ADDRESS</h3>
+                <div class="row" id="address_line_1">
+                    <div class="col-6">
+                        address line 1
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
+                <div class="row" id="address_line_1">
+                    <div class="col-6">
+                        address line 2
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" />
+                    </div>
+                </div>
+                <div class="row" id="city">
+                    <div class="col-6">
+                        city
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" readonly placeholder="enter zipcode first"/>
+                    </div>
+                </div>
+                <div class="row" id="state">
+                    <div class="col-6">
+                        state
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" readonly placeholder="enter zipcode first"/>
+                    </div>
+                </div>
+                <div class="row" id="zipcode">
+                    <div class="col-6">
+                        zipcode
+                    </div>
+                    <div class="col-6">
+                        <input type="text" class="data" onblur="checkZipcode();" />
+                    </div>
+                </div>
+            </div>
+
+            <label for="address_redundancy">Is your billing address the same as your mailing address? (if not, uncheck)</label>
+            <input type="checkbox" id="address_redundancy" value="This field does nothing" checked="checked" />
+
+            <div id="billing_address_details" class="invisible">
+                <h3>Billing ADDRESS</h3>
                 <div class="row" id="address_line_1">
                     <div class="col-6">
                         address line 1
@@ -108,12 +167,12 @@
                         <input type="text" class="data" />
                     </div>
                 </div>
-                <div class="row" id="zipcode" onblur="checkZippyZip();">
+                <div class="row" id="zipcode">
                     <div class="col-6">
                         zipcode
                     </div>
                     <div class="col-6">
-                        <input type="text" class="data" />
+                        <input type="text" class="data" onblur="checkZipcode();" />
                     </div>
                 </div>
             </div>
@@ -164,6 +223,9 @@
                     </div>
                 </div>
             </div>
+
+            <input type="submit" value="submit" id="submit" />
+
         </form>
 
     </div>
